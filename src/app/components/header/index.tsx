@@ -10,7 +10,9 @@ const Header = () => {
   return (
     <div className="bg-main w-full">
       <div className="flex items-center justify-between py-6 px-8">
-        <h2 className="font-bold text-2xl md:text-3xl">Food App</h2>
+        <h2 className="font-bold text-2xl md:text-3xl">
+          <Link href={"/"}>Food App</Link>
+        </h2>
         <ul className="items-center gap-10 hidden md:flex">
           <li className="font-semibold">
             <Link href="/menu">Menu</Link>
@@ -42,7 +44,9 @@ const MenuMobile = ({ close }: { close: () => void }) => {
       <div className="absolute top-4 left-4 cursor-pointer" onClick={close}>
         <IoMdClose />
       </div>
-      <h2 className="font-bold text-3xl text-center -mt-20">Food App</h2>
+      <h2 className="font-bold text-3xl text-center -mt-20">
+        <Link href={"/"}>Food App</Link>
+      </h2>
 
       <ul className="items-center gap-2 flex flex-col mt-10 justify-center text-center">
         <li className="font-semibold">
