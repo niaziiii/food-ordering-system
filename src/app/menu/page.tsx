@@ -5,8 +5,10 @@ import Filters from "../components/filter";
 import Cart from "../components/cart";
 import { BiMenuAltLeft } from "react-icons/bi";
 import Pagination from "../components/pagination";
+import useMenuHook from "../utils/useHooks/useMenuHook";
 
 const page = () => {
+  const { menuData } = useMenuHook();
   const [showFilters, setShowFilters] = useState(false);
 
   return (
@@ -33,9 +35,9 @@ const page = () => {
 
           {/* cart menu items */}
           <div className="w-full px-4 py-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((elm) => (
-              <div className="flex items-center justify-center" key={elm}>
-                <Cart />
+            {menuData.map((menu, i) => (
+              <div className="flex items-center justify-center" key={i}>
+                <Cart data={menu} />
               </div>
             ))}
           </div>

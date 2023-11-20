@@ -1,9 +1,13 @@
 import Image from "next/image";
 import React, { useState } from "react";
+import { IMenu } from "@/app/utils/type";
+import useCartHook from "@/app/utils/useHooks/useCartHook";
+import toast from "react-hot-toast";
 
-const Cart = () => {
-  const initialText =
-    "Time to clean up the diet. So gone are the nights of wine-ing, and here arrived are the days of keto The most ordered dish in town.";
+const Cart = ({ data }: { data: IMenu }) => {
+  const { addCartHandler } = useCartHook();
+
+  const initialText = data.description;
 
   const [showMore, setShowMore] = useState(false);
   const [displayText, setDisplayText] = useState(initialText.slice(0, 80));
@@ -21,16 +25,14 @@ const Cart = () => {
     <div className="bg-main max-w-[18rem] overflow-hidden rounded">
       <div>
         <Image
-          src={"/image-card.jpg"}
+          src={data.coverImage}
           alt="card-image"
           width={"300"}
           height={300}
         />
       </div>
       <div className="px-2">
-        <h2 className="text-2xl mt-2 font-semibold">
-          Pasta dish on a brown plate
-        </h2>
+        <h2 className="text-2xl mt-2 font-semibold">{data.name}</h2>
         <div className="mt-1 text-md">
           {displayText}{" "}
           <p className="text-blue" onClick={handleShowMore}>
@@ -39,8 +41,16 @@ const Cart = () => {
         </div>
 
         <div className="flex justify-between items-center mt-2 mb-2">
-          <button className="bg-gray px-4 py-1 rounded">Order now</button>
-          <b className="text-green text-xl">10$</b>
+          <button
+            className="bg-gray px-4 py-1 rounded"
+            onClick={() => {
+              toast.success(`${data.name} has been added to cart.`);
+              addCartHandler({ ...data, quantity: 1 });
+            }}
+          >
+            Order now
+          </button>
+          <b className="text-green text-xl">{data.price}$</b>
         </div>
       </div>
     </div>

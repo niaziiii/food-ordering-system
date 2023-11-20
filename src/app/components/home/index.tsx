@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Cart from "../cart";
 import Question from "../question";
+import useMenuHook from "@/app/utils/useHooks/useMenuHook";
 
 const HomePage = () => {
+  const { menuData } = useMenuHook();
   const [windowWidth, setWindowWidth] = useState(0);
 
   const handleResize = () => {
@@ -54,15 +56,14 @@ const HomePage = () => {
         <div className=" bg-lightGrey/50 mx-4 sm:mx-8 py-8 rounded text-white">
           <h1 className="text-2xl font-bold text-center">Check Out Our Menu</h1>
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            <div className="flex items-center justify-center">
-              <Cart />
-            </div>
-            <div className="flex items-center justify-center">
-              <Cart />
-            </div>
-            <div className="flex items-center justify-center">
-              <Cart />
-            </div>
+            {menuData.length &&
+              menuData.slice(0, 3)?.map((menu, i) => {
+                return (
+                  <div className="flex items-center justify-center" key={i}>
+                    <Cart data={menu} />
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

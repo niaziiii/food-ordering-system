@@ -1,8 +1,12 @@
+"use client";
 import React from "react";
 import AppWrapper from "../components/appWrapper";
 import ListedCart from "../components/listedCart";
+import useCartHook from "../utils/useHooks/useCartHook";
 
 const page = () => {
+  const { cartListData, totalAmount } = useCartHook();
+
   return (
     <AppWrapper>
       <div className=" bg-lightGrey/50 mx-4 my-4 sm:mx-8 pb-8 rounded">
@@ -11,15 +15,19 @@ const page = () => {
             Your Cart
           </h1>
           <div className="my-4 flex items-center justify-center gap-4 flex-col md:mx-12">
-            <ListedCart />
-            <ListedCart />
-            <ListedCart />
+            {!cartListData.length ? (
+              <p>Please add some items to cart</p>
+            ) : (
+              cartListData?.map((cart, i) => {
+                return <ListedCart data={cart} index={i} key={i} />;
+              })
+            )}
           </div>
           <div className="w-[80%] m-auto">
             <hr />
             <div className="flex items-center justify-between">
               <p className="mt-4 font-bold">Total</p>
-              <b className="mt-4 font-bold">20$</b>
+              <b className="mt-4 font-bold">{totalAmount}$</b>
             </div>
           </div>
         </div>

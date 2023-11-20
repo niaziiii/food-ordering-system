@@ -14,7 +14,7 @@ const Filters = ({
     setSelectedFilter(filter);
   };
 
-  console.log({ selectedFilter });
+  // console.log({ selectedFilter });
 
   return (
     <div
