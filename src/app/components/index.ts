@@ -8,7 +8,8 @@ import HomePage from "./home/index";
 import ListedCart from "./listedCart";
 import Pagination from "./pagination";
 import Question from "./question";
-export default {
+
+let AllComponents = {
   IncrementDecrement,
   AppWrapper,
   Footer,
@@ -20,3 +21,5 @@ export default {
   Pagination,
   ListedCart,
 };
+
+export default AllComponents;

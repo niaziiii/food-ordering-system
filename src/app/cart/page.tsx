@@ -4,7 +4,7 @@ import AppWrapper from "../components/appWrapper";
 import ListedCart from "../components/listedCart";
 import useCartHook from "../utils/useHooks/useCartHook";
 
-const page = () => {
+const Page = () => {
   const { cartListData, totalAmount } = useCartHook();
 
   return (
@@ -36,4 +36,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -54,7 +54,6 @@ export const AppCustomContextProvider: React.FC<{
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAppCustomContext = () => {
   const context = useContext(CustomContext);
 

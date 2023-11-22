@@ -39,8 +39,8 @@ const HomePage = () => {
         }}
       >
         <div className=" px-2 sm:px-8 w-[45rem]">
-          <h1 className="text-5xl font-bold drop-shadow-2xl ">
-            It's the food and groceries you love, delivered
+          <h1 className="text-5xl font-bold drop-shadow-2xl">
+            Its the food and groceries you love, delivered
           </h1>
           <p className="mt-4 sm:mt-8 ml-2 w-[90%] text-xl text-shado drop-shadow-2xl">
             Would you like millions of new customers to enjoy your amazing food

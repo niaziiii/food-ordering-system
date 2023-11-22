@@ -7,7 +7,7 @@ import { BiMenuAltLeft } from "react-icons/bi";
 import Pagination from "../components/pagination";
 import useMenuHook from "../utils/useHooks/useMenuHook";
 
-const page = () => {
+const Page = () => {
   const { menuData } = useMenuHook();
   const [showFilters, setShowFilters] = useState(false);
 
@@ -48,4 +48,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

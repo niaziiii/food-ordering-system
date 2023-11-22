@@ -1,7 +1,7 @@
 import React from "react";
 import AppWrapper from "../components/appWrapper";
 
-const page = () => {
+const Page = () => {
   return (
     <AppWrapper>
       <div className="bg-lightGrey/50 w-[98%] md:w-[90%] m-auto p-2 py-12 md:p-12">
@@ -32,4 +32,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
