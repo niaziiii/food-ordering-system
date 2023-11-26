@@ -1,22 +1,22 @@
-import { NextResponse } from "next/server";
-import { allData } from "../../../../public/static";
-import { ICart, IMenu } from "@/app/utils/type";
+import { NextRequest, NextResponse } from "next/server";
+import { allData } from "./data";
+import { IMenu } from "@/app/utils/type";
 
 let menuData: IMenu[] = [...allData];
-
 export async function GET(request: Request) {
   return NextResponse.json(
-    { success: "Items retrieved", data: menuData },
+    { success: "Items retrieved", length: menuData.length, data: menuData },
     { status: 200 }
   );
 }
 
-export async function POST(request: Request) {
-  const newData = request.json();
-  menuData.push(newData as unknown as IMenu);
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const menu = body;
+  menuData.push(menu);
 
   return NextResponse.json(
-    { success: "Item created", data: newData },
+    { success: "Item created", data: menu },
     { status: 201 }
   );
 }
@@ -46,9 +46,9 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: any) {
-  const { id } = request.params as any;
+  const body = await request.json();
+  const id = body.id;
 
-  // Assuming menuData is an array of objects with an 'id' property
   const index = menuData.findIndex((item: any) => item.id === id);
 
   if (index !== -1) {

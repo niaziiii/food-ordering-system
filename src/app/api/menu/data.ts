@@ -50,10 +50,3 @@ export const allData = [
     updatedAT: "20 12 2023",
   },
 ];
-
-// id:"1-2",//
-// name: string;
-// description: string;
-// price: number;
-// category: string;
-// coverImage: string;
