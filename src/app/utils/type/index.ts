@@ -1,3 +1,12 @@
+export interface ICart {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  coverImage: string;
+  quantity: number;
+}
+
 export interface IMenu {
   id: string;
   name: string;
@@ -8,9 +17,6 @@ export interface IMenu {
   updatedAT: string;
 }
 
-export interface ICart extends IMenu {
-  extra: string;
-}
 export interface IUser {
   id: string;
   name: string;
