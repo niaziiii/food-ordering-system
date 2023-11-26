@@ -10,7 +10,8 @@ const getData = async (url: string, obj: string | Object, config = {}) => {
 
 /* -- APIs -- */
 export const Auth = {
-  login: (params: string | Object) => postData("/test", params),
+  login: (params: Object) => postData("/login", params),
+  register: (params: Object) => postData("/login", params),
 };
 const API = {
   Auth,

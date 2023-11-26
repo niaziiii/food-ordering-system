@@ -5,10 +5,12 @@ import { IoMdClose } from "react-icons/io";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
-
+import { AiOutlineLogout } from "react-icons/ai";
+import { useAppCustomContext } from "@/app/utils/context";
 const Header = () => {
   const [open, setOpen] = useState(false);
   const { data, status } = useSession();
+  const { state } = useAppCustomContext();
 
   const signOutHandler = () => {
     signOut({ callbackUrl: "/login", redirect: true });
@@ -24,7 +26,14 @@ const Header = () => {
             <Link href="/menu">Menu</Link>
           </li>
           <li className="font-semibold">
-            <Link href="/cart">Cart</Link>
+            <Link href="/cart" className=" relative">
+              Cart
+              {state.cart.length > 0 && (
+                <b className="absolute -top-[75%] left-[100%] border-green text-center w-[1.6rem] h-[1.6rem] rounded-full border">
+                  {state.cart.length}
+                </b>
+              )}
+            </Link>
           </li>
           {status == "authenticated" ? (
             <div className="flex gap-4 items-center ">
@@ -32,8 +41,10 @@ const Header = () => {
                 <FaUser />
                 {data.user.name}
               </b>
-              <li className="font-semibold text-gray px-3 py-1 rounded  ">
-                <button onClick={signOutHandler}>Logout</button>
+              <li className="font-semibold text-white text-2xl px-3 py-1 rounded  ">
+                <button onClick={signOutHandler} className="mt-2">
+                  <AiOutlineLogout />
+                </button>
               </li>
             </div>
           ) : (
@@ -66,6 +77,7 @@ const MenuMobile = ({
   logout: () => void;
 }) => {
   const { data, status } = useSession();
+  const { state } = useAppCustomContext();
 
   return (
     <div className="bg-main p-4 absolute w-full h-screen z-10 top-0 left-0 flex items-center justify-center flex-col">
@@ -80,8 +92,15 @@ const MenuMobile = ({
         <li className="font-semibold">
           <Link href="/menu">Menu</Link>
         </li>
-        <li className="font-semibold">
-          <Link href="/cart">Cart</Link>
+        <li className="font-semibold mt-3">
+          <Link href="/cart" className="relative">
+            Cart
+            {state.cart.length > 0 && (
+              <b className="absolute -top-[60%] left-[120%] border-green text-center w-[1.6rem] h-[1.6rem] rounded-full border">
+                {state.cart.length}
+              </b>
+            )}
+          </Link>
         </li>
         {status == "authenticated" ? (
           <div className="flex gap-2 flex-col mt-4 items-center ">
@@ -89,8 +108,10 @@ const MenuMobile = ({
               <FaUser />
               {data.user.name}
             </b>
-            <li className="font-semibold text-gray px-3 py-1 rounded  ">
-              <button>Logout</button>
+            <li className="font-semibold text-white text-2xl px-3 py-1 rounded  ">
+              <button onClick={logout}>
+                <AiOutlineLogout />
+              </button>
             </li>
           </div>
         ) : (

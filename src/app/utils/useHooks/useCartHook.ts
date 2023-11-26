@@ -25,7 +25,7 @@ const useCartHook = () => {
 
   const deleteCartHandler = (i: number) => {
     const newCart = cartListData.filter((cart, idx) => i !== idx);
-    // dispatch({ type: "SET_CART", payload: [...newCart] });
+    dispatch({ type: "SET_CART", payload: [...newCart] });
   };
 
   useEffect(() => {

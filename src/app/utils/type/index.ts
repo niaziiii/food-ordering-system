@@ -19,12 +19,14 @@ export interface IMenu {
 }
 
 export interface IUser {
-  id: string;
+  id: string | "xyz-1";
   name: string;
   email: string;
   role: "admin" | "user" | "delivery";
   password: string;
   updatedAt: string;
+  dob: string;
+  address: string;
 }
 
 export interface IOrder {

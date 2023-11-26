@@ -1,31 +1,50 @@
 "use client";
 import React, { useState } from "react";
-import AppWrapper from "../components/appWrapper";
 import { signIn } from "next-auth/react";
 import Header from "../components/header";
 import Footer from "../components/footer";
+import { useAuth } from "../utils/useHooks/authHook";
+import toast from "react-hot-toast";
+import { IUser } from "../utils/type";
+import Link from "next/link";
 
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const { login } = useAuth();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+    if (loading) return;
+    setLoading(true);
+    login(
+      { email, password },
+      async (res: any) => {
+        const user: IUser = res.data.data;
+        let url = "/";
+        if (user.role == "admin") url = "/dashboard";
+        if (user.role == "delivery") url = "/delivery";
 
-    console.log("Email:", email);
-    console.log("Password:", password);
-
-    try {
-      await signIn("credentials", {
-        name: "Test",
-        email: email,
-        role: "admin",
-        redirect: true,
-        callbackUrl: "/",
-      });
-    } catch (error) {
-      console.log({ error });
-    }
+        try {
+          await signIn("credentials", {
+            ...user,
+            redirect: true,
+            callbackUrl: url,
+          });
+        } catch (error) {
+          console.log({ error });
+          setLoading(false);
+        }
+        setLoading(false);
+      },
+      (err: any) => {
+        console.log({ err });
+        toast.error("Provided credentials are incorrect!", { duration: 800 });
+        setLoading(false);
+      }
+    );
   };
 
   return (
@@ -55,12 +74,15 @@ const Page = () => {
                 className="bg-lightGrey/50 p-4 border rounded"
                 placeholder="Enter your password"
               />
+              <Link href={"/register"} className="text-blue ml-2">
+                Register now!
+              </Link>
               <div className="mt-4 flex items-center justify-center mb-4">
                 <button
                   type="submit"
                   className="bg-gray px-20 text-white rounded font-bold py-2"
                 >
-                  Login
+                  {loading ? "Loading..." : "Login"}
                 </button>
               </div>
             </form>
