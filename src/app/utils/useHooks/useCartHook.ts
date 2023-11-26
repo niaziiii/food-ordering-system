@@ -8,12 +8,24 @@ const useCartHook = () => {
   const cartListData = state.cart;
 
   const addCartHandler = (cart: ICart) => {
+    const carts = state.cart;
+    const isAlreadyAdded = carts.find((c) => c.id == cart.id);
+
+    // if already cart added then just incrment quantity
+    if (isAlreadyAdded) {
+      isAlreadyAdded.quantity = isAlreadyAdded.quantity + 1;
+      const updateCarts = carts.filter((c) => c.id !== isAlreadyAdded.id);
+      updateCarts.push(isAlreadyAdded);
+      dispatch({ type: "SET_CART", payload: [...updateCarts] });
+      return;
+    }
+
     dispatch({ type: "SET_CART", payload: [...cartListData, cart] });
   };
 
   const deleteCartHandler = (i: number) => {
     const newCart = cartListData.filter((cart, idx) => i !== idx);
-    dispatch({ type: "SET_CART", payload: [...newCart] });
+    // dispatch({ type: "SET_CART", payload: [...newCart] });
   };
 
   useEffect(() => {

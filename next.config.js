@@ -1,6 +1,15 @@
-/** @type {import('next').NextConfig} */
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   presets: ["next/babel"],
+// };
+
+// module.exports = nextConfig;
+
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
-  presets: ["next/babel"],
+  /* config options here */
 };
 
 module.exports = nextConfig;

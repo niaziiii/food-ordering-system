@@ -14,6 +14,7 @@ const ListedCart = ({ data, index }: { data: ICart; index: number }) => {
         <Image
           src={data.coverImage}
           alt="card-image"
+          className="lg:w-[10rem]"
           width={"300"}
           height={200}
         />
@@ -28,10 +29,10 @@ const ListedCart = ({ data, index }: { data: ICart; index: number }) => {
           >
             Delete item <MdDelete />
           </button>
-          <b className="ml-4 text-green">{data.price}</b>
+          <b className="ml-4 text-green">{data.price}$</b>
         </div>
       </div>
-      <div className="hidden md:flex">
+      <div className="hidden md:flex ml-auto">
         <IncrementDecrement index={index} quantity={data.quantity} />
       </div>
       <div className="flex md:hidden">
