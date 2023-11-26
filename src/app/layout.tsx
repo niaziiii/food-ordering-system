@@ -5,13 +5,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import AuthProvider from "@/app/api/auth/[...nextauth]/auth-provider";
 import "@/app/globals.css";
 
-export const metadata = {
-  title: "Food Ordering System",
-  description:
-    "The food ordering system for client to order food and get deliver to home...",
-  viewport: { width: "device-width", initialScale: 1 },
-};
-
 export default async function RootLayout({
   children,
 }: {
