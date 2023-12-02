@@ -22,12 +22,10 @@ const useCartHook = () => {
 
     dispatch({ type: "SET_CART", payload: [...cartListData, cart] });
   };
-
   const deleteCartHandler = (i: number) => {
     const newCart = cartListData.filter((cart, idx) => i !== idx);
     dispatch({ type: "SET_CART", payload: [...newCart] });
   };
-
   useEffect(() => {
     let total = 0;
     cartListData?.map((cart) => {

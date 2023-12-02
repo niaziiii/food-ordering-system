@@ -8,6 +8,8 @@ export const allData: IUser[] = [
     role: "admin",
     password: "admin123",
     updatedAt: "2-11-23",
+    address: "no address",
+    dob: "2-2-2",
   },
   {
     id: "user1-1",
@@ -16,6 +18,8 @@ export const allData: IUser[] = [
     role: "user",
     password: "user123",
     updatedAt: "2-12-23",
+    address: "no address",
+    dob: "2-2-2",
   },
   {
     id: "delivery1-1",
@@ -24,5 +28,7 @@ export const allData: IUser[] = [
     role: "delivery",
     password: "delivery123",
     updatedAt: "2-12-23",
+    address: "no address",
+    dob: "2-2-2",
   },
 ];
