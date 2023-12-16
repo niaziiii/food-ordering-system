@@ -3,6 +3,7 @@ export const userTableHeaders = [
   "Name",
   "Email",
   "Role",
+  "Phone",
   "Updated",
   "Delete",
 ];
@@ -36,6 +37,7 @@ export const UserLists = ({ users }: { users: any }) => {
       </th>
       <td className="px-6 py-4">{user.email}</td>
       <td className="px-6 py-4">{user.role}</td>
+      <td className="px-6 py-4">{user.phone}</td>
       <td className="px-6 py-4">{user.updatedAt}</td>
       <td className="px-6 py-4 text-red">Delete</td>
     </tr>

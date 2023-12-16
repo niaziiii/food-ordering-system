@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import AuthProvider from "@/app/api/auth/[...nextauth]/auth-provider";
 import "@/app/globals.css";
+import GlobalModal from "./components/modal/contaiiner";
 
 export default async function RootLayout({
   children,
@@ -15,6 +16,7 @@ export default async function RootLayout({
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <AuthProvider session={session}>
+          <GlobalModal />
           <AppCustomContextProvider>
             {children}
             <Toaster />

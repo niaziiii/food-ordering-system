@@ -1,15 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppWrapper from "../components/appWrapper";
 import Filters from "../components/filter";
 import Cart from "../components/cart";
 import { BiMenuAltLeft } from "react-icons/bi";
 import Pagination from "../components/pagination";
 import useMenuHook from "../utils/useHooks/useMenuHook";
+import toast from "react-hot-toast";
 
 const Page = () => {
-  const { menuData } = useMenuHook();
+  const { getAllMenuList, setMenuList, menuList } = useMenuHook();
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    getAllMenuList(
+      {},
+      (res: any) => {
+        setMenuList(res.data);
+      },
+      (err: any) => {
+        toast.error("Error 404 - Product fetching");
+      }
+    );
+  }, []);
+
+  console.log({ menuList });
 
   return (
     <AppWrapper>
@@ -35,11 +50,12 @@ const Page = () => {
 
           {/* cart menu items */}
           <div className="w-full px-4 py-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {menuData.map((menu, i) => (
-              <div className="flex items-center justify-center" key={i}>
-                <Cart data={menu} />
-              </div>
-            ))}
+            {menuList?.data.length &&
+              menuList?.data.map((menu, i) => (
+                <div className="flex items-center justify-center" key={i}>
+                  <Cart data={menu} />
+                </div>
+              ))}
           </div>
         </div>
         <Pagination />

@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { allData } from "./data";
-import { IUser } from "@/app/utils/type";
-
-let userData: IUser[] = [...allData];
+import "../../../../lib/mongoDb";
+import User from "./login-schema";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
   if (body.type == "login") {
-    const user = userData.find(
-      (u) => u.email === body.email && u.password == body.password
-    );
-    if (user) {
+    const user = await User.findOne({ email: body.email });
+    if (user.password == body.password) {
       return NextResponse.json(
         { message: "LoggedIn user!", success: true, data: user },
         { status: 200 }
@@ -23,9 +19,10 @@ export async function POST(request: NextRequest) {
       );
     }
   } else if (body.type == "register") {
-    allData.push(body);
+    const newUser = await User.create({ ...body });
+
     return NextResponse.json(
-      { message: "Registerd user!", success: true, data: body },
+      { message: "Registerd user!", success: true, data: newUser },
       { status: 201 }
     );
   }

@@ -5,8 +5,9 @@ import Question from "../question";
 import useMenuHook from "@/app/utils/useHooks/useMenuHook";
 
 const HomePage = () => {
-  const { menuData } = useMenuHook();
+  const { getAllMenuList, setMenuList, menuList } = useMenuHook();
   const [windowWidth, setWindowWidth] = useState(0);
+  const [showFilters, setShowFilters] = useState(false);
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -25,6 +26,18 @@ const HomePage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    getAllMenuList(
+      {},
+      (res: any) => {
+        console.log({ res });
+        setMenuList(res.data);
+      },
+      (err: any) => {
+        console.log({ err });
+      }
+    );
+  }, []);
   return (
     <div>
       <div
@@ -56,8 +69,8 @@ const HomePage = () => {
         <div className=" bg-lightGrey/50 mx-4 sm:mx-8 py-8 rounded text-white">
           <h1 className="text-2xl font-bold text-center">Check Out Our Menu</h1>
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {menuData.length &&
-              menuData.slice(0, 3)?.map((menu, i) => {
+            {menuList.data.length &&
+              menuList.data.slice(0, 3)?.map((menu, i) => {
                 return (
                   <div className="flex items-center justify-center" key={i}>
                     <Cart data={menu} />

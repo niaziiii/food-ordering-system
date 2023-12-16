@@ -48,7 +48,7 @@ const Page = () => {
     setLoading(true);
 
     register(
-      { ...formData, id: `${formData.dob}-user` },
+      { ...formData },
       async (res: any) => {
         const user: IUser = res.data.data;
         let url = "/";

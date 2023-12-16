@@ -1,4 +1,6 @@
 import React from "react";
+import { useModal } from "../modal/useModal";
+import AddMenuModalView from "@/app/components/modal/allReuseableModal/AddMenu";
 
 const AdminMenu = ({
   updatedScreen,
@@ -7,6 +9,7 @@ const AdminMenu = ({
   updatedScreen: (num: number) => void;
   screen: number;
 }) => {
+  const { openModal } = useModal();
   let lists: any = ["Users", "Menu", "Orders"];
 
   return (
@@ -28,6 +31,19 @@ const AdminMenu = ({
             </li>
           );
         })}
+        <button
+          className={`cursor-pointer inline-block text-sm text-green text-start mt-12`}
+          onClick={() => {
+            console.log("op3n");
+
+            openModal({
+              view: <AddMenuModalView />,
+              customSize: "720px",
+            });
+          }}
+        >
+          Add Menu
+        </button>
       </ul>
     </div>
   );

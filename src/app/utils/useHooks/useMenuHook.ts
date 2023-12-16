@@ -4,10 +4,12 @@ import API from "../api/api";
 import { useAppCustomContext } from "../context";
 
 const useMenuHook = () => {
-  const { dispatch, state } = useAppCustomContext();
-  const [menuList, setMenu] = useState();
+  // const { dispatch, state } = useAppCustomContext();
+  const [menuList, setMenuList] = useState({
+    data: [],
+  });
 
-  const menuData = state.menu;
+  // const menuData = state.menu;
 
   const getAllMenuList = async (
     params: any,
@@ -17,7 +19,6 @@ const useMenuHook = () => {
     try {
       const allMenu = await API.Menu.getAllMenuList(params);
       if (allMenu) {
-        setMenu(allMenu as any);
         if (successCallback) successCallback(allMenu);
       }
     } catch (error) {
@@ -67,15 +68,16 @@ const useMenuHook = () => {
     }
   };
 
-  const updateMenuData = (data: any) => {
-    dispatch({ type: "SET_MENU", payload: [...menuData, data] });
-  };
+  // const updateMenuData = (data: any) => {
+  //   dispatch({ type: "SET_MENU", payload: [...menuData, data] });
+  // };
 
   return {
-    menuData,
+    // menuData,
     menuList,
+    setMenuList,
     getAllMenuList,
-    updateMenuData,
+    // updateMenuData,
     addMenuHandler,
     deleteMenuHandler,
     updateMenuHandler,

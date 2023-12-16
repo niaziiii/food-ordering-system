@@ -30,6 +30,8 @@ const Page = () => {
     getAllUserList(
       {},
       (res: any) => {
+        console.log({ res });
+
         setAllUsers(res.data.data);
       },
       (err: any) => {

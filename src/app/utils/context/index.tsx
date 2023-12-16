@@ -32,7 +32,7 @@ const CustomReducer = (state: AppState, action: Action): AppState => {
 
 const initialGameState: AppState = {
   cart: [],
-  menu: allData,
+  menu: [],
 };
 
 export const CustomContext = createContext<
