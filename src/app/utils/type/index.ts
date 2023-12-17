@@ -1,5 +1,5 @@
 export interface ICart {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   price: number;
@@ -9,7 +9,7 @@ export interface ICart {
 }
 
 export interface IMenu {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   price: number;

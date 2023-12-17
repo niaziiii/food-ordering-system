@@ -1,12 +1,39 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import AppWrapper from "../components/appWrapper";
 import ListedCart from "../components/listedCart";
 import useCartHook from "../utils/useHooks/useCartHook";
+import { useSession } from "next-auth/react";
+import useOrderHook from "../utils/useHooks/userOrders";
+import toast from "react-hot-toast";
 
 const Page = () => {
-  const { cartListData, totalAmount } = useCartHook();
+  const { data } = useSession();
+  const { cartListData, totalAmount, emptyCartHandler } = useCartHook();
+  const [loading, setLoading] = useState(false);
+  const { addOrderHandler } = useOrderHook();
 
+  const orderHandler = () => {
+    if (loading) return;
+    const userId = data?.user?._id;
+
+    setLoading(true);
+
+    addOrderHandler(
+      {
+        orderData: cartListData,
+        totalAmount,
+        userId,
+      },
+      (res: any) => {
+        toast.success(res.message);
+        setLoading(false);
+      },
+      (err: any) => {
+        console.log({ err });
+      }
+    );
+  };
   return (
     <AppWrapper>
       <div className=" bg-lightGrey/50 mx-4 my-4 sm:mx-8 pb-8 rounded">
@@ -29,6 +56,16 @@ const Page = () => {
               <p className="mt-4 font-bold">Total</p>
               <b className="mt-4 font-bold">{totalAmount}$</b>
             </div>
+            {cartListData.length > 0 && (
+              <div className="text-center">
+                <button
+                  className="bg-main px-6 py-2 rounded-md text-white"
+                  onClick={orderHandler}
+                >
+                  {loading ? "Placing your order..." : "Order Now"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

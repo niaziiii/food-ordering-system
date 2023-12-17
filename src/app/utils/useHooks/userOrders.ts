@@ -66,6 +66,7 @@ const useOrderHook = () => {
 
   return {
     ordersList,
+    addOrderHandler,
   };
 };
 

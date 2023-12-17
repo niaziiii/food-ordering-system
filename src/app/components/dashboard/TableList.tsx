@@ -10,11 +10,15 @@ import {
 const TableList = ({
   users,
   menus,
+  editMenu,
   screen,
+  deleteMenu,
 }: {
   users: any;
   menus: any;
+  editMenu: any;
   screen: number;
+  deleteMenu: any;
 }) => {
   if (screen == 0) {
     return (
@@ -37,7 +41,11 @@ const TableList = ({
             <TableHeaderList row={menuTableHeaders} />
           </thead>
           <tbody>
-            <MenuLists menus={menus} />
+            <MenuLists
+              deleteMenu={deleteMenu}
+              editMenu={editMenu}
+              menus={menus}
+            />
           </tbody>
         </table>
       </div>

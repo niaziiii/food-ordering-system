@@ -4,12 +4,9 @@ import API from "../api/api";
 import { useAppCustomContext } from "../context";
 
 const useMenuHook = () => {
-  // const { dispatch, state } = useAppCustomContext();
   const [menuList, setMenuList] = useState({
     data: [],
   });
-
-  // const menuData = state.menu;
 
   const getAllMenuList = async (
     params: any,
@@ -67,10 +64,6 @@ const useMenuHook = () => {
       if (failCallback) failCallback(error);
     }
   };
-
-  // const updateMenuData = (data: any) => {
-  //   dispatch({ type: "SET_MENU", payload: [...menuData, data] });
-  // };
 
   return {
     // menuData,

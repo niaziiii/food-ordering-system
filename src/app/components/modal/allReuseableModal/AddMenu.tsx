@@ -1,27 +1,58 @@
 import { ActionIcon } from "rizzui";
 import { useModal } from "../useModal";
-import Link from "next/link";
 import { useState } from "react";
+import useMenuHook from "@/app/utils/useHooks/useMenuHook";
+import toast from "react-hot-toast";
 
 export default function AddMenuModalView({
   updateTableState,
+  row,
 }: {
-  updateTableState?: () => void;
+  updateTableState: () => void;
+  row?: any;
 }) {
   const { closeModal } = useModal();
   const [loading, setLoading] = useState();
+  const { addMenuHandler, updateMenuHandler } = useMenuHook();
+
+  console.log({
+    row,
+  });
 
   const [menuData, setMenuData] = useState<any>({
-    name: "",
-    description: "",
-    price: "",
-    category: "",
-    coverImage: "",
+    name: row?.name ?? "",
+    description: row?.description ?? "",
+    price: row?.price ?? "",
+    category: row?.category ?? "",
+    coverImage: row?.coverImage ?? "",
   });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log({ e, menuData });
+    row
+      ? updateMenuHandler(
+          { ...row, ...menuData },
+          (res: any) => {
+            console.log({ res });
+            toast.success(res?.data?.message);
+            updateTableState();
+            closeModal();
+          },
+          (err: any) => {
+            console.log({ err });
+          }
+        )
+      : addMenuHandler(
+          menuData,
+          (res: any) => {
+            toast.success(res?.data?.message);
+            updateTableState();
+            closeModal();
+          },
+          (err: any) => {
+            console.log({ err });
+          }
+        );
   };
 
   return (

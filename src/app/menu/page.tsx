@@ -9,14 +9,23 @@ import useMenuHook from "../utils/useHooks/useMenuHook";
 import toast from "react-hot-toast";
 
 const Page = () => {
-  const { getAllMenuList, setMenuList, menuList } = useMenuHook();
+  const { getAllMenuList, setMenuList } = useMenuHook();
   const [showFilters, setShowFilters] = useState(false);
+
+  const [mainMenuList, setMainMenuList] = useState({
+    data: [],
+  });
+  const [menuList, setMenusList] = useState({
+    data: [],
+  });
 
   useEffect(() => {
     getAllMenuList(
       {},
       (res: any) => {
+        setMainMenuList(res.data);
         setMenuList(res.data);
+        setMenusList(res.data);
       },
       (err: any) => {
         toast.error("Error 404 - Product fetching");
@@ -24,7 +33,8 @@ const Page = () => {
     );
   }, []);
 
-  console.log({ menuList });
+  const setMainMenuListItems = (result: any) =>
+    setMainMenuList({ data: result });
 
   return (
     <AppWrapper>
@@ -50,15 +60,19 @@ const Page = () => {
 
           {/* cart menu items */}
           <div className="w-full px-4 py-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {menuList?.data.length &&
-              menuList?.data.map((menu, i) => (
+            {mainMenuList?.data.length &&
+              mainMenuList?.data.map((menu, i) => (
                 <div className="flex items-center justify-center" key={i}>
                   <Cart data={menu} />
                 </div>
               ))}
           </div>
         </div>
-        <Pagination />
+        <Pagination
+          mainMenuList={mainMenuList}
+          menuList={menuList}
+          setMainMenuListItems={setMainMenuListItems}
+        />
       </div>
     </AppWrapper>
   );

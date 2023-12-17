@@ -1,22 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { allData } from "./data";
 import { IOrder } from "@/app/utils/type";
+import Order from "./order-schema";
 
 let menuData: IOrder[] = [...allData];
 export async function GET(request: Request) {
+  const orders = await Order.find().populate("userId").exec();
+
   return NextResponse.json(
-    { success: "All Orders", length: menuData.length, data: menuData },
+    { success: "All Orders", length: menuData.length, data: orders },
     { status: 200 }
   );
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const menu = body;
-  menuData.push(menu);
+  const newOrder = await Order.create({ ...body });
 
   return NextResponse.json(
-    { success: "Order Created", data: menu },
+    { message: "Order has been placed.", data: newOrder },
     { status: 201 }
   );
 }

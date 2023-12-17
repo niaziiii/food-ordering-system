@@ -5,9 +5,11 @@ import AddMenuModalView from "@/app/components/modal/allReuseableModal/AddMenu";
 const AdminMenu = ({
   updatedScreen,
   screen,
+  updateState,
 }: {
   updatedScreen: (num: number) => void;
   screen: number;
+  updateState: () => void;
 }) => {
   const { openModal } = useModal();
   let lists: any = ["Users", "Menu", "Orders"];
@@ -37,7 +39,7 @@ const AdminMenu = ({
             console.log("op3n");
 
             openModal({
-              view: <AddMenuModalView />,
+              view: <AddMenuModalView updateTableState={updateState} />,
               customSize: "720px",
             });
           }}

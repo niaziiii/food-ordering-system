@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { allData } from "./data";
-import { IMenu } from "@/app/utils/type";
+import Menu from "./menuSchema";
+import "../../../../lib/mongoDb";
 
-let menuData: IMenu[] = [...allData];
 export async function GET(request: Request) {
+  const newMenu = await Menu.find();
+
   return NextResponse.json(
-    { success: "Items retrieved", length: menuData.length, data: menuData },
+    { success: "Items retrieved", length: newMenu.length, data: newMenu },
     { status: 200 }
   );
 }
@@ -13,51 +14,40 @@ export async function GET(request: Request) {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const menu = body;
-  menuData.push(menu);
+  const newMenu = await Menu.create(menu);
 
   return NextResponse.json(
-    { success: "Item created", data: menu },
+    { message: "menu product has been added", data: newMenu },
     { status: 201 }
   );
 }
 
-interface UpdateRequestBody {
-  id: string; // Adjust the type of id based on your actual data type
-  // Add other properties as needed
-}
+export async function PATCH(request: Request) {
+  const body = await request.json();
+  console.log({ body });
 
-export async function PUT(request: Request) {
-  const body = (await request.json()) as UpdateRequestBody;
-  const id = body.id;
+  const id: any = body;
   const updatedData = body;
 
-  // Assuming menuData is an array of objects with an 'id' property
-  const index = menuData.findIndex((item: any) => item.id === id);
+  const updatedMenu = await Menu.findByIdAndUpdate(id._id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
 
-  if (index !== -1) {
-    menuData[index] = { ...menuData[index], ...updatedData };
-    return NextResponse.json(
-      { success: "Item updated", data: menuData[index] },
-      { status: 200 }
-    );
-  } else {
-    return NextResponse.json({ error: "Item not found" }, { status: 404 });
-  }
+  return NextResponse.json(
+    { message: "The menu product has been updated", data: updatedMenu },
+    { status: 202 }
+  );
 }
 
 export async function DELETE(request: any) {
   const body = await request.json();
-  const id = body.id;
+  const id: any = body._id;
 
-  const index = menuData.findIndex((item: any) => item.id === id);
+  const deletedItem = await Menu.deleteOne({ id: id._id });
 
-  if (index !== -1) {
-    const deletedItem = menuData.splice(index, 1);
-    return NextResponse.json(
-      { success: "Item deleted", data: deletedItem },
-      { status: 200 }
-    );
-  } else {
-    return NextResponse.json({ error: "Item not found" }, { status: 404 });
-  }
+  return NextResponse.json(
+    { message: "menu product deleted", data: deletedItem },
+    { status: 200 }
+  );
 }

@@ -1,3 +1,5 @@
+import { log } from "console";
+
 export const userTableHeaders = [
   "#No",
   "Name",
@@ -14,7 +16,7 @@ export const menuTableHeaders = [
   "Category",
   "Price",
   "Updated",
-  "Delete",
+  "Actions",
 ];
 
 export const TableHeaderList = ({ row }: { row: any }) => {
@@ -43,23 +45,63 @@ export const UserLists = ({ users }: { users: any }) => {
     </tr>
   ));
 };
+function formatDate(timestamp: any) {
+  // Create a new Date object using the timestamp
+  const date = new Date(timestamp);
 
-export const MenuLists = ({ menus }: { menus: any }) => {
+  // Get day, month, and year
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+  const year = date.getFullYear().toString().slice(-2); // Get the last two digits of the year
+
+  // Combine into the desired format
+  const formattedDate = `${day}-${month}-${year}`;
+
+  return formattedDate;
+}
+console.log({ fff: formatDate("1702826539693") });
+
+export const MenuLists = ({
+  menus,
+  deleteMenu,
+  editMenu,
+}: {
+  menus: any;
+  deleteMenu: any;
+  editMenu: any;
+}) => {
+  console.log({ menus });
+
   return menus?.map((menu: any, i: any) => (
-    <tr className=" border-b" key={i}>
-      <td className="px-6 py-4">{i + 1}</td>
+    <tr className=" border-b h-full" key={i}>
+      <td className="px-6 py-4 h-full">{i + 1}</td>
 
-      <td className="px-6 py-4">
+      <td className="px-6 py-4 h-full">
         <img src={menu.coverImage} alt="" />
       </td>
       <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
         {menu.name}
       </th>
-      <td className="px-6 py-4">{menu.category}</td>
+      <td className="px-6 py-4 h-full">{menu.category}</td>
 
-      <td className="px-6 py-4">{menu.price}</td>
-      <td className="px-6 py-4">{menu.updatedAT}</td>
-      <td className="px-6 py-4 text-red">Delete</td>
+      <td className="px-6 py-4 h-full">{menu.price}</td>
+      <td className="px-6 py-4 h-full">{formatDate(Number(menu.updatedAt))}</td>
+      <td className="px-6 py-4    ">
+        <div className="flex gap-4 ">
+          <button
+            className="border-none outline-none cursor-pointer font-semibold text-green "
+            onClick={() => editMenu(menu)}
+          >
+            Edit
+          </button>
+          <button
+            className="border-none outline-none cursor-pointer text-red font-semibold "
+            onClick={() => deleteMenu(menu)}
+          >
+            Delete
+          </button>
+        </div>
+      </td>
     </tr>
   ));
 };
