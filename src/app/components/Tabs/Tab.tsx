@@ -5,26 +5,38 @@ const Tab = ({
   isActive,
   onClick,
   labelClasses,
+  length,
 }: {
   label: any;
   isActive: any;
   onClick: any;
   labelClasses?: string;
-}) => (
-  <li className={`me-2 ${isActive ? "active" : ""}`}>
-    <a
-      href="#"
-      onClick={onClick}
-      className={`inline-block p-4 rounded-t-lg  ${label} ${
-        isActive
-          ? "text-blue-600 bg-gray-100 dark:bg-gray-800 dark:text-blue-500"
-          : `hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${labelClasses}`
-      }`}
-    >
-      {label}
-    </a>
-  </li>
-);
+  length: any;
+}) => {
+  return (
+    <li className={`me-2 ${isActive ? "active" : ""}`}>
+      <a
+        href="#"
+        onClick={onClick}
+        className={`inline-block p-4 rounded-t-lg  ${label} ${
+          isActive
+            ? "text-blue-600 bg-gray-100 dark:bg-gray-800 dark:text-blue-500"
+            : `hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${labelClasses}`
+        }`}
+      >
+        {label}
+        <small
+          className={`text-black font-bold ${
+            isActive && "!text-black"
+          }  ${labelClasses}`}
+        >
+          {" "}
+          {`(${length})`}
+        </small>
+      </a>
+    </li>
+  );
+};
 
 const TabList = ({
   tabs,
@@ -36,19 +48,22 @@ const TabList = ({
   activeTab: any;
   onTabClick: any;
   labelClasses?: string;
-}) => (
-  <ul className="flex flex-wrap text-sm font-medium text-center text-black border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-    {tabs.map((tab: any, index: any) => (
-      <Tab
-        key={index}
-        label={tab.label}
-        isActive={activeTab === index}
-        onClick={() => onTabClick(index)}
-        labelClasses={labelClasses}
-      />
-    ))}
-  </ul>
-);
+}) => {
+  return (
+    <ul className="flex flex-wrap text-sm font-medium text-center text-black border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+      {tabs.map((tab: any, index: any) => (
+        <Tab
+          key={index}
+          label={tab.label}
+          isActive={activeTab === index}
+          onClick={() => onTabClick(index)}
+          labelClasses={labelClasses}
+          length={tab.length}
+        />
+      ))}
+    </ul>
+  );
+};
 
 const TabPanel = ({
   children,
@@ -56,14 +71,16 @@ const TabPanel = ({
 }: {
   children: React.ReactNode;
   tabClasses?: string;
-}) => <div className={`p-4 ${tabClasses}`}>{children}</div>;
+}) => (
+  <div className={`p-4 h-fit overflow-x-auto ${tabClasses}`}>{children}</div>
+);
 
 export const Tabs = ({
   tabs,
   labelClasses,
   tabClasses,
 }: {
-  tabs: { label: string; content: React.ReactNode }[];
+  tabs: { length: number; label: string; content: React.ReactNode }[];
   labelClasses?: string;
   tabClasses?: string;
 }) => {

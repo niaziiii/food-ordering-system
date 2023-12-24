@@ -1,6 +1,13 @@
 import React from "react";
 import { IOrder } from "@/app/utils/type";
-import { StatusBadge, Badge, formatDate, AdminOptions } from "./utils";
+import {
+  StatusBadge,
+  Badge,
+  formatDate,
+  AdminOptions,
+  DeliveryOptions,
+  UserOptions,
+} from "./utils";
 import { useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 
@@ -59,7 +66,19 @@ const ListedOrder = ({ data, index }: { data: IOrder; index: number }) => {
         </div>
       )}
 
-      <div className="w-full flex items-center justify-center mt-2">
+      {session?.user.role == "delivery" && (
+        <div className="w-full flex items-center justify-center mt-2">
+          <DeliveryOptions data={data} />
+        </div>
+      )}
+
+      {session?.user.role == "user" && (
+        <div className="w-full flex items-center justify-center mt-2">
+          <UserOptions data={data} />
+        </div>
+      )}
+
+      <div className="w-full flex items-center justify-center mt-4">
         <StatusBadge status={status} />
       </div>
       <div className="flex items-start justify-between">
@@ -102,6 +121,12 @@ const ListedOrder = ({ data, index }: { data: IOrder; index: number }) => {
         <h3 className="text-xl font-bold">Pay (while receiving food)</h3>
         <b> ${totalAmount}</b>
       </div>
+      {status === "Deliverd" && (
+        <Badge
+          name={`Order has been completed!`}
+          classNames="bg-main text-white mt-4 text-center py-2 font-bold"
+        />
+      )}
     </div>
   );
 };

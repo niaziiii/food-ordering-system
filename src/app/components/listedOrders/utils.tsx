@@ -160,3 +160,114 @@ export const AdminOptions = ({ data }: { data: IOrder }) => {
   }
   return <></>;
 };
+
+export const DeliveryOptions = ({ data }: { data: IOrder }) => {
+  const { status } = data;
+  const { updateOrderHandler, getAllOrderList, setOrdersList } = useOrderHook();
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
+
+  const acceptFoodPicking = () => {
+    if (loading) return;
+    setLoading(true);
+    console.log({ data });
+
+    updateOrderHandler(
+      {
+        status: "Pickup",
+        _id: data._id,
+        deliveryId: session?.user._id,
+      },
+      (res: any) => {
+        toast.success(res.data.success);
+        setLoading(false);
+      },
+      (err: any) => {
+        console.log({ err });
+        setLoading(false);
+      }
+    );
+  };
+
+  // fetching orders
+  useEffect(() => {
+    getAllOrderList(
+      {},
+      (res: any) => {
+        setOrdersList(res?.data?.data);
+      },
+      (err: any) => {
+        console.log({ err });
+      }
+    );
+  }, [loading]);
+
+  if (status == "Ready") {
+    return (
+      <div className="flex gap-3 font-bold mt-4 mb-2">
+        Request for picking this order
+        <button
+          onClick={acceptFoodPicking}
+          className="text-green py-0 px-4 text-xl"
+        >
+          <FaCheckDouble />
+        </button>
+      </div>
+    );
+  }
+  return <></>;
+};
+
+export const UserOptions = ({ data }: { data: IOrder }) => {
+  const { status } = data;
+  const { updateOrderHandler, getAllOrderList, setOrdersList } = useOrderHook();
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
+
+  const acceptFoodPicking = () => {
+    if (loading) return;
+    setLoading(true);
+    updateOrderHandler(
+      {
+        status: "Deliverd",
+        _id: data._id,
+      },
+      (res: any) => {
+        toast.success(res.data.success);
+        setLoading(false);
+      },
+      (err: any) => {
+        console.log({ err });
+        setLoading(false);
+      }
+    );
+  };
+
+  // fetching orders
+  useEffect(() => {
+    getAllOrderList(
+      {},
+      (res: any) => {
+        setOrdersList(res?.data?.data);
+      },
+      (err: any) => {
+        console.log({ err });
+      }
+    );
+  }, [loading]);
+
+  if (status == "Pickup") {
+    return (
+      <div className="flex gap-3 font-bold mt-4 mb-2">
+        Mark as complete order...
+        <button
+          onClick={acceptFoodPicking}
+          className="text-green py-0 px-4 text-xl"
+        >
+          <FaCheckDouble />
+        </button>
+      </div>
+    );
+  }
+  return <></>;
+};

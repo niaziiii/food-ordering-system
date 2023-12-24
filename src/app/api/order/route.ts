@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Order from "./order-schema";
 
 export async function GET(request: Request) {
-  const orders = await Order.find().populate("userId");
+  const orders = await Order.find().populate("userId").populate("deliveryId");
 
   return NextResponse.json(
     { success: "All Orders", length: orders.length, data: orders },
@@ -89,5 +89,27 @@ export async function PATCH(request: Request) {
     );
   }
 
+  // when user/client marking order as complete
+  if (order.status == "Pickup" && body.status == "Deliverd") {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      {
+        status: "Deliverd",
+        deliveryId: body.deliveryId,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return NextResponse.json(
+      {
+        success: "The order has been mark as successfuly delivered",
+        data: updatedOrder,
+      },
+      { status: 202 }
+    );
+  }
   return NextResponse.json({ error: "Item not found" }, { status: 404 });
 }

@@ -130,7 +130,7 @@ const Page = () => {
 
   return (
     <AppWrapper>
-      <div className="min-h-[80vh] bg-white shadow-lg my-4 w-[70%] m-auto rounded flex">
+      <div className="min-h-[80vh] bg-white shadow-lg my-4 w-[96%] xl:w-[70%] m-auto rounded flex">
         <AdminMenu
           updatedScreen={updatedScreen}
           screen={screen}

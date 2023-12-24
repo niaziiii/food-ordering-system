@@ -34,12 +34,13 @@ const TableList = ({
   const tabsData = [
     {
       label: "Pending",
+      length: orders.pending.length,
       content: (
         <div className="text-black">
           {orders.pending.length > 0 ? (
             <TabContent orderData={orders.pending as IOrder[]} />
           ) : (
-            <p className="text-center w-full text-white mt-6">
+            <p className="text-center w-full mt-6">
               No pending orders currently.
             </p>
           )}
@@ -48,12 +49,13 @@ const TableList = ({
     },
     {
       label: "Received",
+      length: orders.received.length,
       content: (
         <div>
           {orders.received.length > 0 ? (
             <TabContent orderData={orders.received as IOrder[]} />
           ) : (
-            <p className="text-center w-full text-white mt-6">
+            <p className="text-center w-full mt-6">
               No orders received by the restaurant yet.
             </p>
           )}
@@ -62,12 +64,13 @@ const TableList = ({
     },
     {
       label: "Ready",
+      length: orders.ready.length,
       content: (
         <div>
           {orders.ready.length > 0 ? (
             <TabContent orderData={orders.ready as IOrder[]} />
           ) : (
-            <p className="text-center w-full text-white mt-6">
+            <p className="text-center w-full mt-6">
               Your food is not prepared yet by the restaurant.
             </p>
           )}
@@ -76,12 +79,13 @@ const TableList = ({
     },
     {
       label: "Pickup",
+      length: orders.pickup.length,
       content: (
         <div>
           {orders.pickup.length > 0 ? (
             <TabContent orderData={orders.pickup as IOrder[]} />
           ) : (
-            <p className="text-center w-full text-white mt-6">
+            <p className="text-center w-full mt-6">
               No orders available for pickup.
             </p>
           )}
@@ -90,14 +94,13 @@ const TableList = ({
     },
     {
       label: "Delivered",
+      length: orders.delivered.length,
       content: (
         <div>
           {orders.delivered.length > 0 ? (
             <TabContent orderData={orders.delivered as IOrder[]} />
           ) : (
-            <p className="text-center w-full text-white mt-6">
-              No delivered orders yet.
-            </p>
+            <p className="text-center w-full mt-6">No delivered orders yet.</p>
           )}
         </div>
       ),
@@ -136,10 +139,10 @@ const TableList = ({
     );
   } else if (screen == 2) {
     return (
-      <div className="w-[80%] bg-main">
+      <div className="w-[80%] bg-main h-fit">
         <Tabs
           labelClasses="!text-white hover:!text-black !rounded-none"
-          tabClasses="!text-black"
+          tabClasses="!text-black !bg-white"
           tabs={tabsData}
         />
       </div>

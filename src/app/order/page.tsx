@@ -77,6 +77,7 @@ const Page = () => {
 
   const tabsData = [
     {
+      length: orders.pending.length,
       label: "Pending",
       content: (
         <div>
@@ -89,6 +90,7 @@ const Page = () => {
       ),
     },
     {
+      length: orders.received.length,
       label: "Received",
       content: (
         <div>
@@ -103,6 +105,7 @@ const Page = () => {
       ),
     },
     {
+      length: orders.ready.length,
       label: "Ready",
       content: (
         <div>
@@ -118,6 +121,7 @@ const Page = () => {
     },
     {
       label: "Pickup",
+      length: orders.pickup.length,
       content: (
         <div>
           {orders.pickup.length > 0 ? (
@@ -132,6 +136,7 @@ const Page = () => {
     },
     {
       label: "Delivered",
+      length: orders.delivered.length,
       content: (
         <div>
           {orders.delivered.length > 0 ? (
