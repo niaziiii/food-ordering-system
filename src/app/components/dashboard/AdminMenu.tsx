@@ -36,8 +36,6 @@ const AdminMenu = ({
         <button
           className={`cursor-pointer inline-block text-sm text-green text-start mt-12`}
           onClick={() => {
-            console.log("op3n");
-
             openModal({
               view: <AddMenuModalView updateTableState={updateState} />,
               customSize: "720px",

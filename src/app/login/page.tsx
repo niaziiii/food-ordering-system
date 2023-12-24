@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { useAuth } from "../utils/useHooks/authHook";
 import toast from "react-hot-toast";
 import { IUser } from "../utils/type";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const Page = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,9 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
+  const session = useSession();
+
+  if (session) redirect("/");
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();

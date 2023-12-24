@@ -3,10 +3,18 @@ import React, { useEffect, useState } from "react";
 import Cart from "../cart";
 import Question from "../question";
 import useMenuHook from "@/app/utils/useHooks/useMenuHook";
+import useOrderHook from "@/app/utils/useHooks/userOrders";
+import { useSession } from "next-auth/react";
+import { IOrder } from "@/app/utils/type";
+import useUser from "@/app/utils/useHooks/userHook";
 
 const HomePage = () => {
   const { getAllMenuList, setMenuList, menuList } = useMenuHook();
+  const { getAllOrderList, setOrdersList } = useOrderHook();
+  const { data } = useSession();
+  const { getAllUserList } = useUser();
   const [windowWidth, setWindowWidth] = useState(0);
+
   const [showFilters, setShowFilters] = useState(false);
 
   const handleResize = () => {
@@ -33,6 +41,27 @@ const HomePage = () => {
         console.log({ res });
         setMenuList(res.data);
       },
+      (err: any) => {
+        console.log({ err });
+      }
+    );
+
+    getAllOrderList(
+      {},
+      (res: any) => {
+        const id = data?.user._id;
+        const userOrders = res?.data?.data.filter(
+          (order: IOrder) => order.userId._id == id
+        );
+        setOrdersList(userOrders);
+      },
+      (err: any) => {
+        console.log({ err });
+      }
+    );
+    getAllUserList(
+      {},
+      (res: any) => {},
       (err: any) => {
         console.log({ err });
       }

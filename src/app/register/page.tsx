@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { useAuth } from "../utils/useHooks/authHook";
 import toast from "react-hot-toast";
 import { IUser } from "../utils/type";
+import { redirect } from "next/navigation";
 
 const Page = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +23,10 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
 
   const { register } = useAuth();
+
+  const session = useSession();
+
+  if (session) redirect("/");
 
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -74,8 +79,6 @@ const Page = () => {
       }
     );
   };
-  console.log({ formData });
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-between bg-main-900 text-white">
       <Header />

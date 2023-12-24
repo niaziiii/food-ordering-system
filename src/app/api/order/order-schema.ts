@@ -1,5 +1,4 @@
 import mongoose, { Schema, model, models } from "mongoose";
-import User from "../login/login-schema";
 
 const orderSchema = new Schema({
   userId: {

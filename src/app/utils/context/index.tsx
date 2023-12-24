@@ -1,12 +1,13 @@
 "use client";
 import React, { createContext, useContext, useReducer } from "react";
-import { ICart, IMenu } from "../type";
+import { ICart, IMenu, IOrder } from "../type";
 import { allData } from "../../../../public/static";
 
 // Action types
 export const actionTypes = {
   SET_MENU: "SET_MENU",
   SET_CART: "SET_CART",
+  SET_ORDER: "SET_ORDER",
 } as const;
 
 export type Action = {
@@ -16,6 +17,7 @@ export type Action = {
 interface AppState {
   cart: ICart[];
   menu: IMenu[];
+  order: IOrder[];
 }
 
 const CustomReducer = (state: AppState, action: Action): AppState => {
@@ -24,6 +26,8 @@ const CustomReducer = (state: AppState, action: Action): AppState => {
       return { ...state, cart: [...(action.payload as any)] };
     case actionTypes.SET_MENU:
       return { ...state, menu: [...(action.payload as any)] };
+    case actionTypes.SET_ORDER:
+      return { ...state, order: [...(action.payload as any)] };
 
     default:
       return state;
@@ -33,6 +37,7 @@ const CustomReducer = (state: AppState, action: Action): AppState => {
 const initialGameState: AppState = {
   cart: [],
   menu: [],
+  order: [],
 };
 
 export const CustomContext = createContext<

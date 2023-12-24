@@ -16,10 +16,11 @@ export interface IMenu {
   category: string;
   coverImage: string;
   updatedAT: string;
+  quantity: number;
 }
 
 export interface IUser {
-  id: string | "xyz-1";
+  _id: string | "xyz-1";
   name: string;
   email: string;
   role: "admin" | "user" | "delivery";
@@ -30,16 +31,11 @@ export interface IUser {
 }
 
 export interface IOrder {
-  id: string;
-  user: string;
-  delivery_person: string;
+  _id: string;
+  userId: IUser;
+  totalAmount: number;
+  orderData: IMenu[];
+  status: "Pending" | "Received" | "Ready" | "Pickup" | "Deliverd";
   updatedAt: string;
-  status:
-    | "Order Recived! Food preparing..."
-    | "Looking for delivery person to pick..."
-    | "Rider picked your food."
-    | "Food delivered!";
-  menu: IMenu[];
-  payment: "paid" | "on-delivery";
-  price: 90;
+  deliveryId: IUser;
 }

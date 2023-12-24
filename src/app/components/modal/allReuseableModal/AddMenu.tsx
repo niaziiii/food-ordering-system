@@ -14,11 +14,6 @@ export default function AddMenuModalView({
   const { closeModal } = useModal();
   const [loading, setLoading] = useState();
   const { addMenuHandler, updateMenuHandler } = useMenuHook();
-
-  console.log({
-    row,
-  });
-
   const [menuData, setMenuData] = useState<any>({
     name: row?.name ?? "",
     description: row?.description ?? "",
@@ -33,7 +28,6 @@ export default function AddMenuModalView({
       ? updateMenuHandler(
           { ...row, ...menuData },
           (res: any) => {
-            console.log({ res });
             toast.success(res?.data?.message);
             updateTableState();
             closeModal();

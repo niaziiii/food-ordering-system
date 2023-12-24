@@ -6,12 +6,13 @@ import useCartHook from "../utils/useHooks/useCartHook";
 import { useSession } from "next-auth/react";
 import useOrderHook from "../utils/useHooks/userOrders";
 import toast from "react-hot-toast";
+import { IOrder } from "../utils/type";
 
 const Page = () => {
   const { data } = useSession();
   const { cartListData, totalAmount, emptyCartHandler } = useCartHook();
   const [loading, setLoading] = useState(false);
-  const { addOrderHandler } = useOrderHook();
+  const { getAllOrderList, setOrdersList, addOrderHandler } = useOrderHook();
 
   const orderHandler = () => {
     if (loading) return;
@@ -26,8 +27,23 @@ const Page = () => {
         userId,
       },
       (res: any) => {
-        toast.success(res.message);
+        emptyCartHandler();
+        toast.success(res?.data?.message);
         setLoading(false);
+
+        getAllOrderList(
+          {},
+          (res: any) => {
+            const id = data?.user._id;
+            const userOrders = res?.data?.data.filter(
+              (order: IOrder) => order.userId._id == id
+            );
+            setOrdersList(userOrders);
+          },
+          (err: any) => {
+            console.log({ err });
+          }
+        );
       },
       (err: any) => {
         console.log({ err });

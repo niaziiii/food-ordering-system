@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { allData } from "./data";
-import { IOrder } from "@/app/utils/type";
 import Order from "./order-schema";
 
-let menuData: IOrder[] = [...allData];
 export async function GET(request: Request) {
-  const orders = await Order.find().populate("userId").exec();
+  const orders = await Order.find().populate("userId");
 
   return NextResponse.json(
-    { success: "All Orders", length: menuData.length, data: orders },
+    { success: "All Orders", length: orders.length, data: orders },
     { status: 200 }
   );
 }
@@ -28,13 +25,10 @@ export async function PUT(request: Request) {
   const id = body.id;
   const updatedData = body;
 
-  const index = menuData.findIndex((item: any) => item.id === id);
-
-  if (index !== -1) {
-    menuData[index] = { ...menuData[index], ...updatedData };
+  if (updatedData) {
     return NextResponse.json(
-      { success: "Order updated", data: menuData[index] },
-      { status: 200 }
+      { success: "Order updated", data: [] },
+      { status: 202 }
     );
   } else {
     return NextResponse.json({ error: "Item not found" }, { status: 404 });

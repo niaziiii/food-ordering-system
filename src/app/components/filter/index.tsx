@@ -14,8 +14,6 @@ const Filters = ({
     setSelectedFilter(filter);
   };
 
-  // console.log({ selectedFilter });
-
   return (
     <div
       className={`min-w-[15rem] w-[15rem] ${

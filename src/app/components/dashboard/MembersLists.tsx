@@ -47,7 +47,7 @@ export const UserLists = ({ users }: { users: any }) => {
 };
 function formatDate(timestamp: any) {
   // Create a new Date object using the timestamp
-  const date = new Date(timestamp);
+  const date = new Date(+timestamp);
 
   // Get day, month, and year
   const day = date.getDate().toString().padStart(2, "0");
@@ -59,8 +59,6 @@ function formatDate(timestamp: any) {
 
   return formattedDate;
 }
-console.log({ fff: formatDate("1702826539693") });
-
 export const MenuLists = ({
   menus,
   deleteMenu,
@@ -70,8 +68,6 @@ export const MenuLists = ({
   deleteMenu: any;
   editMenu: any;
 }) => {
-  console.log({ menus });
-
   return menus?.map((menu: any, i: any) => (
     <tr className=" border-b h-full" key={i}>
       <td className="px-6 py-4 h-full">{i + 1}</td>

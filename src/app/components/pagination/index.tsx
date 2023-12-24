@@ -24,8 +24,6 @@ const Pagination = ({
 
   const renderPaginationItems = () => {
     const paginationItems = [];
-    console.log({ totalPages });
-
     for (let i = 1; i <= totalPages; i++) {
       paginationItems.push(
         <button

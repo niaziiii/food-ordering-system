@@ -1,10 +1,15 @@
 "use client";
-import { useState } from "react";
 import API from "../api/api";
+import { useAppCustomContext } from "../context";
+import { IOrder } from "../type";
 
 const useOrderHook = () => {
-  const [ordersList, setOrdersList] = useState();
+  const { dispatch, state } = useAppCustomContext();
+  const ordersList = state.order;
 
+  const setOrdersList = (data: IOrder[]) => {
+    dispatch({ type: "SET_ORDER", payload: data });
+  };
   const getAllOrderList = async (
     params: any,
     successCallback: any,
@@ -13,7 +18,6 @@ const useOrderHook = () => {
     try {
       const orders = await API.Orders.getAllOrderList(params);
       if (orders) {
-        setOrdersList(orders as any);
         if (successCallback) successCallback(orders);
       }
     } catch (error) {
@@ -66,7 +70,9 @@ const useOrderHook = () => {
 
   return {
     ordersList,
+    setOrdersList,
     addOrderHandler,
+    getAllOrderList,
   };
 };
 

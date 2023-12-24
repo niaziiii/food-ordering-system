@@ -24,8 +24,6 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: Request) {
   const body = await request.json();
-  console.log({ body });
-
   const id: any = body;
   const updatedData = body;
 

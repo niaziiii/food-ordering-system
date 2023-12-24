@@ -7,11 +7,12 @@ import { signOut, useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useAppCustomContext } from "@/app/utils/context";
+import useOrderHook from "@/app/utils/useHooks/userOrders";
 const Header = () => {
   const [open, setOpen] = useState(false);
   const { data, status } = useSession();
   const { state } = useAppCustomContext();
-
+  const { ordersList } = useOrderHook();
   const signOutHandler = () => {
     signOut({ callbackUrl: "/login", redirect: true });
   };
@@ -34,6 +35,20 @@ const Header = () => {
                   {state.cart.length > 0 && (
                     <b className="absolute -top-[75%] left-[100%] border-green text-center w-[1.6rem] h-[1.6rem] rounded-full border">
                       {state.cart.length}
+                    </b>
+                  )}
+                </Link>
+              </li>
+            </>
+          )}
+          {data?.user?.role == "user" && ordersList.length > 0 && (
+            <>
+              <li className="font-semibold">
+                <Link href="/order" className=" relative">
+                  Orders
+                  {ordersList.length > 0 && (
+                    <b className="absolute -top-[75%] left-[100%] border-green text-center w-[1.6rem] h-[1.6rem] rounded-full border">
+                      {ordersList.length}
                     </b>
                   )}
                 </Link>
