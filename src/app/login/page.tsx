@@ -15,9 +15,6 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
-  const session = useSession();
-
-  if (session) redirect("/");
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();

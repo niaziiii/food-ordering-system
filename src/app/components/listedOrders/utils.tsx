@@ -1,3 +1,10 @@
+import React, { useEffect, useState } from "react";
+import { IOrder } from "@/app/utils/type";
+import { useSession } from "next-auth/react";
+import { FaCheckDouble } from "react-icons/fa";
+import useOrderHook from "@/app/utils/useHooks/userOrders";
+import toast from "react-hot-toast";
+
 export const Badge = ({
   name,
   classNames,
@@ -69,3 +76,87 @@ export function formatDate(timestamp: any) {
 
   return formattedDate;
 }
+
+export const AdminOptions = ({ data }: { data: IOrder }) => {
+  const { status } = data;
+  const { updateOrderHandler, getAllOrderList, setOrdersList } = useOrderHook();
+  const [loading, setLoading] = useState(false);
+
+  const acceptFoodRequest = () => {
+    if (loading) return;
+    setLoading(true);
+    updateOrderHandler(
+      {
+        status: "Received",
+        _id: data._id,
+      },
+      (res: any) => {
+        toast.success(res.data.success);
+        setLoading(false);
+      },
+      (err: any) => {
+        console.log({ err });
+        setLoading(false);
+      }
+    );
+  };
+
+  const markAsComplete = () => {
+    if (loading) return;
+    setLoading(true);
+    updateOrderHandler(
+      {
+        status: "Ready",
+        _id: data._id,
+      },
+      (res: any) => {
+        setLoading(false);
+        toast.success(res.data.success);
+      },
+      (err: any) => {
+        console.log({ err });
+        setLoading(false);
+      }
+    );
+  };
+
+  // fetching orders
+  useEffect(() => {
+    getAllOrderList(
+      {},
+      (res: any) => {
+        setOrdersList(res?.data?.data);
+      },
+      (err: any) => {
+        console.log({ err });
+      }
+    );
+  }, [loading]);
+
+  if (status == "Pending") {
+    return (
+      <div className="flex gap-3 font-bold mt-4 mb-2">
+        Accept food request
+        <button
+          onClick={acceptFoodRequest}
+          className="text-green py-0 px-4 text-xl"
+        >
+          <FaCheckDouble />
+        </button>
+      </div>
+    );
+  } else if (status == "Received") {
+    return (
+      <div className="flex gap-3 font-bold mt-4 mb-2">
+        Mark as food is Ready.
+        <button
+          onClick={markAsComplete}
+          className="text-green py-0 px-4 text-xl"
+        >
+          <FaCheckDouble />
+        </button>
+      </div>
+    );
+  }
+  return <></>;
+};

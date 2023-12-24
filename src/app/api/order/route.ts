@@ -13,24 +13,81 @@ export async function GET(request: Request) {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const newOrder = await Order.create({ ...body });
-
   return NextResponse.json(
     { message: "Order has been placed.", data: newOrder },
     { status: 201 }
   );
 }
 
-export async function PUT(request: Request) {
+export async function PATCH(request: Request) {
   const body = await request.json();
-  const id = body.id;
-  const updatedData = body;
+  const id = body._id as string;
+  const order = await Order.findById(id);
 
-  if (updatedData) {
+  // when restaurant is reciving the food request
+  if (order.status == "Pending" && body.status == "Received") {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      {
+        status: "Received",
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
     return NextResponse.json(
-      { success: "Order updated", data: [] },
+      { success: "Order has been In prepairing", data: updatedOrder },
       { status: 202 }
     );
-  } else {
-    return NextResponse.json({ error: "Item not found" }, { status: 404 });
   }
+
+  // when restaurant prepared your order
+  if (order.status == "Received" && body.status == "Ready") {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      {
+        status: "Ready",
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return NextResponse.json(
+      {
+        success:
+          "Order has been In Ready registered. looking for delivery person",
+        data: updatedOrder,
+      },
+      { status: 202 }
+    );
+  }
+
+  // when delivery person pickup your order
+  if (order.status == "Ready" && body.status == "Pickup") {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id,
+      {
+        status: "Pickup",
+        deliveryId: body.deliveryId,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return NextResponse.json(
+      {
+        success: "The has been picked your food",
+        data: updatedOrder,
+      },
+      { status: 202 }
+    );
+  }
+
+  return NextResponse.json({ error: "Item not found" }, { status: 404 });
 }

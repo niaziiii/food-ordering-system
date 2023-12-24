@@ -73,6 +73,7 @@ const useOrderHook = () => {
     setOrdersList,
     addOrderHandler,
     getAllOrderList,
+    updateOrderHandler,
   };
 };
 

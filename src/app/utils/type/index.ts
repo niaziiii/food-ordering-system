@@ -28,6 +28,7 @@ export interface IUser {
   updatedAt: string;
   dob: string;
   address: string;
+  phone: string;
 }
 
 export interface IOrder {
