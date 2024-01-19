@@ -24,10 +24,6 @@ const Page = () => {
 
   const { register } = useAuth();
 
-  const session = useSession();
-
-  if (session) redirect("/");
-
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
 
